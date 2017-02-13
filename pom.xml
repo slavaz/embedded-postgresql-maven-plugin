@@ -8,6 +8,38 @@
 
     <name>Embedded PostgreSQL Maven Plugin</name>
 
+    <description>
+        This is Maven plugin for doing things with an embedded PostgreSQL server, like starting, stopping, initializing
+        a DB, etc. The main purpose is running integration tests.
+    </description>
+
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <url>https://github.com/slavaz/embedded-postgresql-maven-plugin</url>
+
+    <developers>
+        <developer>
+            <id>slavaz</id>
+            <name>Slava Zanko</name>
+            <email>slavazanko@gmail.com</email>
+        </developer>
+    </developers>
+
+    <scm>
+        <url>https://github.com/slavaz/embedded-postgresql-maven-plugin.git</url>
+        <connection>scm:git:git://github.com/slavaz/embedded-postgresql-maven-plugin.git</connection>
+        <developerConnection>scm:git:https://github.com/slavaz/embedded-postgresql-maven-plugin.git
+        </developerConnection>
+        <tag>HEAD</tag>
+    </scm>
+
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
@@ -36,22 +68,6 @@
             <version>1.20</version>
         </dependency>
 
-        <!--
-                <dependency>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-enforcer-plugin</artifactId>
-                    <version>1.2</version>
-                    <optional>true</optional>
-                </dependency>
-        -->
-        <!--
-                <dependency>
-                    <groupId>junit</groupId>
-                    <artifactId>junit</artifactId>
-                    <version>4.11</version>
-                    <scope>test</scope>
-                </dependency>
-        -->
     </dependencies>
     <build>
         <plugins>
