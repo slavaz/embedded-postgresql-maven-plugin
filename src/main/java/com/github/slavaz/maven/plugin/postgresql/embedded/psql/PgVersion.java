@@ -42,6 +42,6 @@ public enum PgVersion {
                 }
             }
         }
-        return null;
+        return DEFAUILT.version;
     }
 }
