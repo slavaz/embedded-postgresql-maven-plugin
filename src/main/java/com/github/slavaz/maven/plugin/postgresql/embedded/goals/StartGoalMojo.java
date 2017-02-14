@@ -32,7 +32,7 @@ public class StartGoalMojo extends AbstractGoalMojo {
     private String password;
 
     @Parameter(defaultValue = "5432", property = "pgPort", required = true)
-    private String pgServerPort;
+    private int pgServerPort;
 
     protected void doExecute() throws MojoExecutionException, MojoFailureException {
 

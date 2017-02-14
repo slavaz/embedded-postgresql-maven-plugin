@@ -13,7 +13,7 @@ public class PgInstanceProcess {
 
     private String pgServerVersion;
 
-    private String pgPort;
+    private int pgPort;
 
     private String dbName;
 
@@ -85,11 +85,11 @@ public class PgInstanceProcess {
         this.databaseDir = databaseDir;
     }
 
-    public String getPgPort() {
+    public int getPgPort() {
         return pgPort;
     }
 
-    public void setPgPort(String pgPort) {
+    public void setPgPort(int pgPort) {
         this.pgPort = pgPort;
     }
 }

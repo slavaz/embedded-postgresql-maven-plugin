@@ -61,8 +61,8 @@ public class PgInstanceManager {
     }
 
     private AbstractPostgresConfig.Net getNet(PgInstanceProcess pgInstanceProcess) throws IOException {
-        int port = Integer.parseInt(pgInstanceProcess.getPgPort());
-        return new AbstractPostgresConfig.Net(getLocalHost().getHostAddress(), port);
+
+        return new AbstractPostgresConfig.Net(getLocalHost().getHostAddress(), pgInstanceProcess.getPgPort());
     }
 
     private IVersion getVersion(final PgInstanceProcess pgInstanceProcess) {
