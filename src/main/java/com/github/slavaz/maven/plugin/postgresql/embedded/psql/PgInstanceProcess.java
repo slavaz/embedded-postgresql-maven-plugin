@@ -13,6 +13,8 @@ public class PgInstanceProcess {
 
     private String pgServerVersion;
 
+    private String pgPort;
+
     private String dbName;
 
     private String userName;
@@ -34,7 +36,6 @@ public class PgInstanceProcess {
         }
         return instance;
     }
-
 
     public PostgresProcess getProcess() {
         return process;
@@ -82,5 +83,13 @@ public class PgInstanceProcess {
 
     public void setDatabaseDir(String databaseDir) {
         this.databaseDir = databaseDir;
+    }
+
+    public String getPgPort() {
+        return pgPort;
+    }
+
+    public void setPgPort(String pgPort) {
+        this.pgPort = pgPort;
     }
 }

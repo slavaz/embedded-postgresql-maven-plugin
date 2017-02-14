@@ -31,6 +31,9 @@ public class StartGoalMojo extends AbstractGoalMojo {
     @Parameter(defaultValue = "postgres", required = true)
     private String password;
 
+    @Parameter(defaultValue = "5432", property = "pgPort", required = true)
+    private String pgServerPort;
+
     protected void doExecute() throws MojoExecutionException, MojoFailureException {
 
         try {
@@ -47,6 +50,7 @@ public class StartGoalMojo extends AbstractGoalMojo {
         final PgInstanceProcess pgInstanceProcess = PgInstanceProcess.getInstance();
 
         pgInstanceProcess.setPgServerVersion(pgServerVersion);
+        pgInstanceProcess.setPgPort(pgServerPort);
         pgInstanceProcess.setDatabaseDir(databaseDir);
         pgInstanceProcess.setDbName(dbName);
         pgInstanceProcess.setUserName(userName);

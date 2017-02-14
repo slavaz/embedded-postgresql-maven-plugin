@@ -9,6 +9,7 @@ import ru.yandex.qatools.embed.postgresql.config.PostgresConfig;
 
 import java.io.IOException;
 
+import static de.flapdoodle.embed.process.runtime.Network.getLocalHost;
 import static java.util.Arrays.asList;
 
 /**
@@ -49,7 +50,7 @@ public class PgInstanceManager {
 
         final IVersion version = getVersion(pgInstanceProcess);
 
-        final PostgresConfig config = new PostgresConfig(version, new AbstractPostgresConfig.Net(), storage,
+        final PostgresConfig config = new PostgresConfig(version, getNet(pgInstanceProcess), storage,
                 new AbstractPostgresConfig.Timeout(), creds);
 
         config.getAdditionalInitDbParams()
@@ -57,6 +58,11 @@ public class PgInstanceManager {
                         "--lc-ctype=en_US.UTF-8"));
 
         return config;
+    }
+
+    private AbstractPostgresConfig.Net getNet(PgInstanceProcess pgInstanceProcess) throws IOException {
+        int port = Integer.parseInt(pgInstanceProcess.getPgPort());
+        return new AbstractPostgresConfig.Net(getLocalHost().getHostAddress(), port);
     }
 
     private IVersion getVersion(final PgInstanceProcess pgInstanceProcess) {
