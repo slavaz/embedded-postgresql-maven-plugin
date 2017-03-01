@@ -65,6 +65,12 @@
             <artifactId>postgresql-embedded</artifactId>
             <version>1.20</version>
         </dependency>
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>6.9.6</version>
+            <scope>test</scope>
+        </dependency>
 
     </dependencies>
     <build>

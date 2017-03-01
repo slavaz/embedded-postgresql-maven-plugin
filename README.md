@@ -51,11 +51,11 @@ Starts PostgreSQL server, creates a database and a user with specified password
 The plugin currently supports next versions: 9.3.15, 9.4.10, 9.5.5, 9.6.1
 
 You also may use aliases:
-9.3 -> 9.3.15
-9.4 -> 9.4.10
-9.5 -> 9.5.5
-9.6 -> 9.6.1
-latest -> 9.6
+* 9.3 -> 9.3.15
+* 9.4 -> 9.4.10
+* 9.5 -> 9.5.5
+* 9.6 -> 9.6.1
+* latest -> 9.6
 
 ## Goals
                   

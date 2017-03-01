@@ -8,6 +8,9 @@ import ru.yandex.qatools.embed.postgresql.config.AbstractPostgresConfig;
 import ru.yandex.qatools.embed.postgresql.config.PostgresConfig;
 
 import java.io.IOException;
+import java.nio.charset.Charset;
+import java.util.Collection;
+import java.util.Locale;
 
 import static de.flapdoodle.embed.process.runtime.Network.getLocalHost;
 import static java.util.Arrays.asList;
@@ -39,7 +42,6 @@ public class PgInstanceManager {
     }
 
     private PostgresConfig getPostgresConfig(final PgInstanceProcess pgInstanceProcess)
-            /* String dbName, String userName, String password) */
             throws IOException {
 
         final AbstractPostgresConfig.Storage storage =
@@ -54,8 +56,7 @@ public class PgInstanceManager {
                 new AbstractPostgresConfig.Timeout(), creds);
 
         config.getAdditionalInitDbParams()
-                .addAll(asList("-E", "UTF-8", "--locale=en_US.UTF-8", "--lc-collate=en_US.UTF-8",
-                        "--lc-ctype=en_US.UTF-8"));
+                .addAll(new CharsetParametersList().get());
 
         return config;
     }
@@ -69,4 +70,19 @@ public class PgInstanceManager {
         return PgVersion.get(pgInstanceProcess.getPgServerVersion());
     }
 
+    static class CharsetParametersList {
+        final private Charset defaultCharset;
+        final private String localeName;
+
+        CharsetParametersList() {
+            defaultCharset = Charset.defaultCharset();
+            localeName = Locale.getDefault()
+                    .toString() + "." + defaultCharset.name();
+        }
+
+        Collection<String> get() {
+            return asList("-E", defaultCharset.name(), "--locale=" + localeName, "--lc-collate=" + localeName,
+                    "--lc-ctype=" + localeName);
+        }
+    }
 }
