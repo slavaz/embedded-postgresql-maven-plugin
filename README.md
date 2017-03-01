@@ -15,9 +15,8 @@ Starts PostgreSQL server, creates a database and a user with specified password
         ..
         <plugins>
           <plugin>
-            <groupId>@project.groupId@</groupId>
-            <artifactId>@project.artifactId@</artifactId>
-            <version>@project.version@</version>
+            <groupId>com.github.slavaz</groupId>
+            <artifactId>embedded-postgresql-maven-plugin</artifactId>
             <configuration>
               <pgServerVersion>9.5</pgServerVersion>
               <pgServerPort>15432</pgServerPort>
