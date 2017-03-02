@@ -5,9 +5,9 @@ import ru.yandex.qatools.embed.postgresql.PostgresProcess;
 /**
  * Created by slavaz on 13/02/17.
  */
-public class PgInstanceProcess {
+public class PgInstanceProcessData implements IPgInstanceProcessData {
 
-    private static PgInstanceProcess instance;
+    private static PgInstanceProcessData instance;
 
     private PostgresProcess process;
 
@@ -21,16 +21,20 @@ public class PgInstanceProcess {
 
     private String password;
 
-    private String databaseDir;
+    private String pgDatabaseDir;
 
-    private PgInstanceProcess() {
+    private String pgLocale;
+
+    private String pgCharset;
+
+    private PgInstanceProcessData() {
     }
 
-    public static PgInstanceProcess getInstance() {
+    public static PgInstanceProcessData getInstance() {
         if (instance == null) {
-            synchronized (PgInstanceProcess.class) {
+            synchronized (PgInstanceProcessData.class) {
                 if (instance == null) {
-                    instance = new PgInstanceProcess();
+                    instance = new PgInstanceProcessData();
                 }
             }
         }
@@ -77,12 +81,12 @@ public class PgInstanceProcess {
         this.password = password;
     }
 
-    public String getDatabaseDir() {
-        return databaseDir;
+    public String getPgDatabaseDir() {
+        return pgDatabaseDir;
     }
 
-    public void setDatabaseDir(String databaseDir) {
-        this.databaseDir = databaseDir;
+    public void setPgDatabaseDir(String pgDatabaseDir) {
+        this.pgDatabaseDir = pgDatabaseDir;
     }
 
     public int getPgPort() {
@@ -91,5 +95,21 @@ public class PgInstanceProcess {
 
     public void setPgPort(int pgPort) {
         this.pgPort = pgPort;
+    }
+
+    public String getPgLocale() {
+        return pgLocale;
+    }
+
+    public void setPgLocale(String pgLocale) {
+        this.pgLocale = pgLocale;
+    }
+
+    public String getPgCharset() {
+        return pgCharset;
+    }
+
+    public void setPgCharset(String pgCharset) {
+        this.pgCharset = pgCharset;
     }
 }

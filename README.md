@@ -6,6 +6,49 @@
 Embedded PostgreSQL Maven Plugin provides a platform neutral way for running postgres server in integration tests.
 This plugin  is based on [Embedded PostgreSQL Server library](https://github.com/yandex-qatools/postgresql-embedded)
 
+## Configuration
+
+### pgServerVersion
+
+The plugin currently supports next PostgreSQL versions: 9.3.15, 9.4.10, 9.5.5, 9.6.1
+
+You also may use aliases:
+* 9.3 -> 9.3.15
+* 9.4 -> 9.4.10
+* 9.5 -> 9.5.5
+* 9.6 -> 9.6.1
+* latest -> 9.6
+
+### pgDatabaseDir
+
+Where server files will be plased. Default {project.build.directory}/pgdata
+
+### pgPort
+
+Port for listening incoming connections.
+
+### pgLocale
+
+Locale for embedded PostgreSQL server. Leave empty for running the server with system locale.
+Specify "no" to skip locale & charset definition.
+
+### pgCharset
+
+Charset for embedded PostgreSQL server. Leave empty for running the server with system charset.
+Specify "no" to skip locale & charset definition.
+
+### dbName
+
+Database name. Will be created
+
+### userName
+
+User name. Will be created
+
+### password
+
+User password for newly created user
+
 ## Usage example
 
 Starts PostgreSQL server, creates a database and a user with specified password
@@ -43,18 +86,6 @@ Starts PostgreSQL server, creates a database and a user with specified password
           </plugin>
         </plugins>
     </build>
-
-
-## Supported versions
-
-The plugin currently supports next versions: 9.3.15, 9.4.10, 9.5.5, 9.6.1
-
-You also may use aliases:
-* 9.3 -> 9.3.15
-* 9.4 -> 9.4.10
-* 9.5 -> 9.5.5
-* 9.6 -> 9.6.1
-* latest -> 9.6
 
 ## Goals
                   

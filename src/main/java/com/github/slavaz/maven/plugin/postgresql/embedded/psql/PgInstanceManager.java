@@ -1,6 +1,7 @@
 package com.github.slavaz.maven.plugin.postgresql.embedded.psql;
 
 import de.flapdoodle.embed.process.distribution.IVersion;
+import org.apache.commons.lang3.StringUtils;
 import ru.yandex.qatools.embed.postgresql.PostgresExecutable;
 import ru.yandex.qatools.embed.postgresql.PostgresProcess;
 import ru.yandex.qatools.embed.postgresql.PostgresStarter;
@@ -14,75 +15,95 @@ import java.util.Locale;
 
 import static de.flapdoodle.embed.process.runtime.Network.getLocalHost;
 import static java.util.Arrays.asList;
+import static java.util.Collections.emptyList;
 
 /**
  * Created by slavaz on 13/02/17.
  */
 public class PgInstanceManager {
 
+    private IPgInstanceProcessData pgInstanceProcessData = PgInstanceProcessData.getInstance();
+
     public void start() throws IOException {
 
-        final PgInstanceProcess pgInstanceProcess = PgInstanceProcess.getInstance();
+        final PostgresStarter<PostgresExecutable, PostgresProcess> postgresStarter =
+                PostgresStarter.getDefaultInstance();
 
-        final PostgresStarter<PostgresExecutable, PostgresProcess> runtime = PostgresStarter.getDefaultInstance();
+        final PostgresConfig postgresConfig = getPostgresConfig();
 
-        final PostgresConfig config = getPostgresConfig(pgInstanceProcess);
+        PostgresExecutable postgresExecutable = postgresStarter.prepare(postgresConfig);
 
-        PostgresExecutable exec = runtime.prepare(config);
-
-        pgInstanceProcess.setProcess(exec.start());
+        pgInstanceProcessData.setProcess(postgresExecutable.start());
     }
 
     public void stop() {
-
-        final PgInstanceProcess pgInstanceProcess = PgInstanceProcess.getInstance();
-        final PostgresProcess process = pgInstanceProcess.getProcess();
+        final PostgresProcess process = pgInstanceProcessData.getProcess();
 
         process.stop();
     }
 
-    private PostgresConfig getPostgresConfig(final PgInstanceProcess pgInstanceProcess)
-            throws IOException {
+    private PostgresConfig getPostgresConfig() throws IOException {
 
-        final AbstractPostgresConfig.Storage storage =
-                new AbstractPostgresConfig.Storage(pgInstanceProcess.getDbName(), pgInstanceProcess.getDatabaseDir());
+        final AbstractPostgresConfig.Storage storage = new AbstractPostgresConfig.Storage(
+                pgInstanceProcessData.getDbName(), pgInstanceProcessData.getPgDatabaseDir());
 
         final AbstractPostgresConfig.Credentials creds = new AbstractPostgresConfig.Credentials(
-                pgInstanceProcess.getUserName(), pgInstanceProcess.getPassword());
+                pgInstanceProcessData.getUserName(), pgInstanceProcessData.getPassword());
 
-        final IVersion version = getVersion(pgInstanceProcess);
+        final IVersion version = getVersion();
 
-        final PostgresConfig config = new PostgresConfig(version, getNet(pgInstanceProcess), storage,
-                new AbstractPostgresConfig.Timeout(), creds);
+        final PostgresConfig config =
+                new PostgresConfig(version, getNet(), storage, new AbstractPostgresConfig.Timeout(), creds);
 
         config.getAdditionalInitDbParams()
-                .addAll(new CharsetParametersList().get());
+                .addAll(new CharsetParametersList(pgInstanceProcessData).get());
 
         return config;
     }
 
-    private AbstractPostgresConfig.Net getNet(PgInstanceProcess pgInstanceProcess) throws IOException {
-
-        return new AbstractPostgresConfig.Net(getLocalHost().getHostAddress(), pgInstanceProcess.getPgPort());
+    private AbstractPostgresConfig.Net getNet() throws IOException {
+        return new AbstractPostgresConfig.Net(getLocalHost().getHostAddress(), pgInstanceProcessData.getPgPort());
     }
 
-    private IVersion getVersion(final PgInstanceProcess pgInstanceProcess) {
-        return PgVersion.get(pgInstanceProcess.getPgServerVersion());
+    private IVersion getVersion() {
+        return PgVersion.get(pgInstanceProcessData.getPgServerVersion());
     }
 
     static class CharsetParametersList {
-        final private Charset defaultCharset;
-        final private String localeName;
+        private final static String NO_PARAMETERS = "no";
 
-        CharsetParametersList() {
-            defaultCharset = Charset.defaultCharset();
-            localeName = Locale.getDefault()
-                    .toString() + "." + defaultCharset.name();
+        private final String charsetName;
+        private final String localeName;
+
+        CharsetParametersList(final IPgInstanceProcessData pgInstanceProcess) {
+            charsetName = calculateCharset(pgInstanceProcess);
+            localeName = calculateLocale(pgInstanceProcess);
         }
 
         Collection<String> get() {
-            return asList("-E", defaultCharset.name(), "--locale=" + localeName, "--lc-collate=" + localeName,
-                    "--lc-ctype=" + localeName);
+            if (NO_PARAMETERS.equals(localeName) || NO_PARAMETERS.equals(charsetName)) {
+                return emptyList();
+            }
+
+            final String lc = localeName + "." + charsetName;
+            return asList("-E", charsetName, "--locale=" + lc, "--lc-collate=" + lc, "--lc-ctype=" + lc);
         }
+
+        private String calculateCharset(final IPgInstanceProcessData iPgInstanceProcessData) {
+            if (StringUtils.isEmpty(iPgInstanceProcessData.getPgCharset())) {
+                return Charset.defaultCharset()
+                        .name();
+            }
+            return iPgInstanceProcessData.getPgCharset();
+        }
+
+        private String calculateLocale(final IPgInstanceProcessData iPgInstanceProcessData) {
+            if (StringUtils.isEmpty(iPgInstanceProcessData.getPgLocale())) {
+                return Locale.getDefault()
+                        .toString();
+            }
+            return iPgInstanceProcessData.getPgLocale();
+        }
+
     }
 }

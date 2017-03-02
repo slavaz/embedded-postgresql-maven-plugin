@@ -1,12 +1,15 @@
 package com.github.slavaz.maven.plugin.postgresql.embedded.goals;
 
-import com.github.slavaz.maven.plugin.postgresql.embedded.psql.PgInstanceProcess;
+import com.github.slavaz.maven.plugin.postgresql.embedded.psql.IPgInstanceProcessData;
+import com.github.slavaz.maven.plugin.postgresql.embedded.psql.PgInstanceProcessData;
 import com.github.slavaz.maven.plugin.postgresql.embedded.psql.PgInstanceManager;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 
+import java.io.File;
 import java.io.IOException;
 
 /**
@@ -15,12 +18,14 @@ import java.io.IOException;
 @Mojo(name = "start")
 public class StartGoalMojo extends AbstractGoalMojo {
 
+    @Parameter(defaultValue = "${project.build.directory}")
+    private String projectBuildDir;
 
     @Parameter(defaultValue = "latest", property = "pgVersion", required = true)
     private String pgServerVersion;
 
-    @Parameter(defaultValue = "${project.build.directory}/pgdata", property = "databasedir", required = true)
-    private String databaseDir;
+    @Parameter(property = "pgDatabasedir", required = false)
+    private String pgDatabaseDir;
 
     @Parameter(property = "dbname", required = true)
     private String dbName;
@@ -31,6 +36,12 @@ public class StartGoalMojo extends AbstractGoalMojo {
     @Parameter(defaultValue = "postgres", required = true)
     private String password;
 
+    @Parameter(property = "pgLocale")
+    private String pgLocale;
+
+    @Parameter(property = "pgCharset")
+    private String pgCharset;
+
     @Parameter(defaultValue = "5432", property = "pgPort", required = true)
     private int pgServerPort;
 
@@ -38,6 +49,7 @@ public class StartGoalMojo extends AbstractGoalMojo {
 
         try {
             getLog().info("Starting PostgreSQL...");
+            calculateDatabaseDir();
             initPgInstanceProcess();
             new PgInstanceManager().start();
             getLog().debug("PostgreSQL started.");
@@ -46,14 +58,22 @@ public class StartGoalMojo extends AbstractGoalMojo {
         }
     }
 
-    private void initPgInstanceProcess() {
-        final PgInstanceProcess pgInstanceProcess = PgInstanceProcess.getInstance();
+    private void calculateDatabaseDir() {
+        if (StringUtils.isEmpty(pgDatabaseDir)) {
+            pgDatabaseDir = projectBuildDir + File.separator + "pgdata";
+        }
+    }
 
-        pgInstanceProcess.setPgServerVersion(pgServerVersion);
-        pgInstanceProcess.setPgPort(pgServerPort);
-        pgInstanceProcess.setDatabaseDir(databaseDir);
-        pgInstanceProcess.setDbName(dbName);
-        pgInstanceProcess.setUserName(userName);
-        pgInstanceProcess.setPassword(password);
+    private void initPgInstanceProcess() {
+        final IPgInstanceProcessData pgInstanceProcessData = PgInstanceProcessData.getInstance();
+
+        pgInstanceProcessData.setPgServerVersion(pgServerVersion);
+        pgInstanceProcessData.setPgPort(pgServerPort);
+        pgInstanceProcessData.setPgDatabaseDir(pgDatabaseDir);
+        pgInstanceProcessData.setDbName(dbName);
+        pgInstanceProcessData.setUserName(userName);
+        pgInstanceProcessData.setPassword(password);
+        pgInstanceProcessData.setPgLocale(pgLocale);
+        pgInstanceProcessData.setPgCharset(pgCharset);
     }
 }
