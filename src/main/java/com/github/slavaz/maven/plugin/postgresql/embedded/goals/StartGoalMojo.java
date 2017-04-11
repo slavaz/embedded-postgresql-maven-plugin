@@ -48,6 +48,7 @@ public class StartGoalMojo extends AbstractGoalMojo {
     protected void doExecute() throws MojoExecutionException, MojoFailureException {
 
         try {
+        	super.doExecute();
             getLog().info("Starting PostgreSQL...");
             calculateDatabaseDir();
             initPgInstanceProcess();

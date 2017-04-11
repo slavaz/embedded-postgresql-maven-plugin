@@ -12,6 +12,7 @@ import org.apache.maven.plugins.annotations.Mojo;
 public class StopGoalMojo extends AbstractGoalMojo {
     protected void doExecute() throws MojoExecutionException, MojoFailureException {
         try {
+        	super.doExecute();
             getLog().info("Stopping PostgreSQL...");
             new PgInstanceManager().stop();
             getLog().debug("PostgreSQL stopped.");
@@ -19,4 +20,6 @@ public class StopGoalMojo extends AbstractGoalMojo {
             getLog().error("Failed to stop PostgreSQL", e);
         }
     }
+    
+    
 }
