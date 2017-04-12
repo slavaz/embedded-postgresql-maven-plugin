@@ -13,21 +13,21 @@ import com.github.slavaz.maven.plugin.postgresql.embedded.goals.utils.ProxyUtils
  */
 public abstract class AbstractGoalMojo extends AbstractMojo {
 
-	@Parameter(defaultValue = "false")
-	private boolean skipGoal;
+    @Parameter(defaultValue = "false")
+    private boolean skipGoal;
 
-	@Parameter(defaultValue = "${settings}", readonly = true)
-	protected Settings settings;
+    @Parameter(defaultValue = "${settings}", readonly = true)
+    protected Settings settings;
 
-	public void execute() throws MojoExecutionException, MojoFailureException {
-		if (skipGoal) {
-			getLog().debug("Skipped.");
-		} else {
-			ProxyUtils.handleProxyConfigurjation(this.settings, getLog());
-			doExecute();
-		}
-	}
+    public void execute() throws MojoExecutionException, MojoFailureException {
+        if (skipGoal) {
+            getLog().debug("Skipped.");
+        } else {
+            ProxyUtils.handleProxyConfigurjation(this.settings, getLog());
+            doExecute();
+        }
+    }
 
-	protected abstract void doExecute() throws MojoExecutionException, MojoFailureException;
+    protected abstract void doExecute() throws MojoExecutionException, MojoFailureException;
 
 }
