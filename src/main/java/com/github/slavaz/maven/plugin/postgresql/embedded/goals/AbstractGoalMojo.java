@@ -6,7 +6,7 @@ import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.settings.Settings;
 
-import com.github.slavaz.maven.plugin.postgresql.embedded.goals.utils.ProxyUtils;
+import com.github.slavaz.maven.plugin.postgresql.embedded.proxy.ProxyUtils;
 
 /**
  * Created by slavaz on 13/02/17.
