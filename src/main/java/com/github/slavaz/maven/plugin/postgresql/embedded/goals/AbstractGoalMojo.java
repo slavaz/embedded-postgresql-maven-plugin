@@ -1,17 +1,9 @@
 package com.github.slavaz.maven.plugin.postgresql.embedded.goals;
 
-import java.net.Authenticator;
-import java.net.PasswordAuthentication;
-
-import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.collections4.IterableUtils;
-import org.apache.commons.collections4.Predicate;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Parameter;
-import org.apache.maven.settings.Proxy;
 import org.apache.maven.settings.Settings;
 
 import com.github.slavaz.maven.plugin.postgresql.embedded.goals.utils.ProxyUtils;
