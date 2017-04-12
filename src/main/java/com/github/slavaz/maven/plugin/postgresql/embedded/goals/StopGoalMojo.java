@@ -19,4 +19,6 @@ public class StopGoalMojo extends AbstractGoalMojo {
             getLog().error("Failed to stop PostgreSQL", e);
         }
     }
+    
+    
 }
