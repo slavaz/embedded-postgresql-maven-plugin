@@ -14,7 +14,7 @@ import static org.testng.AssertJUnit.assertEquals;
 public class PgVersionTest {
 
     @DataProvider(name = "get_DataProvider")
-    protected Object[][] LocaleCharsetDataSource() {
+    protected Object[][] getVersionsDataSource() {
         // @formatter:off
         return new Object[][] {
                 { null, Version.V9_6_1 },
