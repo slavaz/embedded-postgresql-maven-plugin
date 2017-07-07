@@ -14,9 +14,9 @@ public enum PgVersion {
     V9_5(new String[] { "9.5", "9.5.5" }, Version.V9_5_5),
     V9_6(new String[] { "9.6", "9.6.1" }, Version.V9_6_1),
 
-    DEFAUILT(V9_6),
+    DEFAULT(V9_6),
 
-    LATEST(new String[] { "default", "latest" }, DEFAUILT);
+    LATEST(new String[] { "default", "latest" }, DEFAULT);
 
     final private String[] aliases;
     final private IVersion version;
@@ -44,7 +44,7 @@ public enum PgVersion {
                         .isPresent()
                 )
                 .findFirst()
-                .orElse(DEFAUILT)
+                .orElse(DEFAULT)
                 .version;
     }
 }

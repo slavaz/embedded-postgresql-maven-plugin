@@ -22,27 +22,33 @@ import static java.util.Collections.emptyList;
  */
 public class PgInstanceManager {
 
-    private IPgInstanceProcessData pgInstanceProcessData = PgInstanceProcessData.getInstance();
+    private static PostgresProcess process = null;
 
-    public void start() throws IOException {
+    public static void start(IPgInstanceProcessData pgInstanceProcessData) throws IOException {
+        if (process != null) {
+            throw new IllegalStateException("Postgres already started");
+        }
 
         final PostgresStarter<PostgresExecutable, PostgresProcess> postgresStarter =
                 PostgresStarter.getDefaultInstance();
 
-        final PostgresConfig postgresConfig = getPostgresConfig();
+        final PostgresConfig postgresConfig = getPostgresConfig(pgInstanceProcessData);
 
         PostgresExecutable postgresExecutable = postgresStarter.prepare(postgresConfig);
 
-        pgInstanceProcessData.setProcess(postgresExecutable.start());
+        process = postgresExecutable.start();
     }
 
-    public void stop() {
-        final PostgresProcess process = pgInstanceProcessData.getProcess();
-
-        process.stop();
+    public static void stop() throws InterruptedException {
+        if (process != null) {
+            PostgresProcess p = process;
+            process = null;
+            p.stop();
+            p.waitFor();
+        }
     }
 
-    private PostgresConfig getPostgresConfig() throws IOException {
+    private static PostgresConfig getPostgresConfig(IPgInstanceProcessData pgInstanceProcessData) throws IOException {
 
         final AbstractPostgresConfig.Storage storage = new AbstractPostgresConfig.Storage(
                 pgInstanceProcessData.getDbName(), pgInstanceProcessData.getPgDatabaseDir());
@@ -50,10 +56,10 @@ public class PgInstanceManager {
         final AbstractPostgresConfig.Credentials creds = new AbstractPostgresConfig.Credentials(
                 pgInstanceProcessData.getUserName(), pgInstanceProcessData.getPassword());
 
-        final IVersion version = getVersion();
+        final IVersion version = getVersion(pgInstanceProcessData);
 
         final PostgresConfig config =
-                new PostgresConfig(version, getNet(), storage, new AbstractPostgresConfig.Timeout(), creds);
+                new PostgresConfig(version, getNet(pgInstanceProcessData), storage, new AbstractPostgresConfig.Timeout(), creds);
 
         config.getAdditionalInitDbParams()
                 .addAll(new CharsetParametersList(pgInstanceProcessData).get());
@@ -61,11 +67,11 @@ public class PgInstanceManager {
         return config;
     }
 
-    private AbstractPostgresConfig.Net getNet() throws IOException {
+    private static AbstractPostgresConfig.Net getNet(IPgInstanceProcessData pgInstanceProcessData) throws IOException {
         return new AbstractPostgresConfig.Net(getLocalHost().getHostAddress(), pgInstanceProcessData.getPgPort());
     }
 
-    private IVersion getVersion() {
+    private static IVersion getVersion(IPgInstanceProcessData pgInstanceProcessData) {
         return PgVersion.get(pgInstanceProcessData.getPgServerVersion());
     }
 
