@@ -1,13 +1,6 @@
 package com.github.slavaz.maven.plugin.postgresql.embedded.psql;
 
-import ru.yandex.qatools.embed.postgresql.PostgresProcess;
-
 public interface IPgInstanceProcessData {
-
-    PostgresProcess getProcess();
-
-    void setProcess(PostgresProcess process);
-
     String getPgServerVersion();
 
     void setPgServerVersion(String pgServerVersion);

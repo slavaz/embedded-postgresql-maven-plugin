@@ -1,9 +1,12 @@
 package com.github.slavaz.maven.plugin.postgresql.embedded.goals;
 
+import com.github.slavaz.maven.plugin.postgresql.embedded.classloader.ClassLoaderHolder;
+import com.github.slavaz.maven.plugin.postgresql.embedded.classloader.ClassLoaderUtils;
 import com.github.slavaz.maven.plugin.postgresql.embedded.psql.IPgInstanceProcessData;
+import com.github.slavaz.maven.plugin.postgresql.embedded.psql.IsolatedPgInstanceManager;
 import com.github.slavaz.maven.plugin.postgresql.embedded.psql.PgInstanceProcessData;
-import com.github.slavaz.maven.plugin.postgresql.embedded.psql.PgInstanceManager;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.maven.artifact.Artifact;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Mojo;
@@ -11,6 +14,7 @@ import org.apache.maven.plugins.annotations.Parameter;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Created by slavaz on 13/02/17.
@@ -45,13 +49,19 @@ public class StartGoalMojo extends AbstractGoalMojo {
     @Parameter(defaultValue = "5432", property = "pgPort", required = true)
     private int pgServerPort;
 
+    @Parameter(readonly = true, defaultValue = "${plugin.artifacts}")
+    private List<Artifact> pluginDependencies;
+
     protected void doExecute() throws MojoExecutionException, MojoFailureException {
 
         try {
             getLog().info("Starting PostgreSQL...");
             calculateDatabaseDir();
-            initPgInstanceProcess();
-            new PgInstanceManager().start();
+
+            ClassLoader classLoader = ClassLoaderUtils.buildClassLoader(pluginDependencies);
+            ClassLoaderHolder.setClassLoader(classLoader);
+            new IsolatedPgInstanceManager(classLoader).start(buildInstanceProcessData());
+
             getLog().debug("PostgreSQL started.");
         } catch (IOException e) {
             getLog().error("Failed to start PostgreSQL", e);
@@ -64,16 +74,8 @@ public class StartGoalMojo extends AbstractGoalMojo {
         }
     }
 
-    private void initPgInstanceProcess() {
-        final IPgInstanceProcessData pgInstanceProcessData = PgInstanceProcessData.getInstance();
-
-        pgInstanceProcessData.setPgServerVersion(pgServerVersion);
-        pgInstanceProcessData.setPgPort(pgServerPort);
-        pgInstanceProcessData.setPgDatabaseDir(pgDatabaseDir);
-        pgInstanceProcessData.setDbName(dbName);
-        pgInstanceProcessData.setUserName(userName);
-        pgInstanceProcessData.setPassword(password);
-        pgInstanceProcessData.setPgLocale(pgLocale);
-        pgInstanceProcessData.setPgCharset(pgCharset);
+    private IPgInstanceProcessData buildInstanceProcessData() {
+        return new PgInstanceProcessData(pgServerVersion, pgServerPort,
+                dbName, userName, password, pgDatabaseDir, pgLocale, pgCharset);
     }
 }

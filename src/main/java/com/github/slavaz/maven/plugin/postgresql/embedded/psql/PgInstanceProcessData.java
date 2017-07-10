@@ -1,16 +1,9 @@
 package com.github.slavaz.maven.plugin.postgresql.embedded.psql;
 
-import ru.yandex.qatools.embed.postgresql.PostgresProcess;
-
 /**
  * Created by slavaz on 13/02/17.
  */
 public class PgInstanceProcessData implements IPgInstanceProcessData {
-
-    private static PgInstanceProcessData instance;
-
-    private PostgresProcess process;
-
     private String pgServerVersion;
 
     private int pgPort;
@@ -27,26 +20,18 @@ public class PgInstanceProcessData implements IPgInstanceProcessData {
 
     private String pgCharset;
 
-    private PgInstanceProcessData() {
+    public PgInstanceProcessData(String pgServerVersion, int pgPort, String dbName, String userName, String password, String pgDatabaseDir, String pgLocale, String pgCharset) {
+        this.pgServerVersion = pgServerVersion;
+        this.pgPort = pgPort;
+        this.dbName = dbName;
+        this.userName = userName;
+        this.password = password;
+        this.pgDatabaseDir = pgDatabaseDir;
+        this.pgLocale = pgLocale;
+        this.pgCharset = pgCharset;
     }
 
-    public static PgInstanceProcessData getInstance() {
-        if (instance == null) {
-            synchronized (PgInstanceProcessData.class) {
-                if (instance == null) {
-                    instance = new PgInstanceProcessData();
-                }
-            }
-        }
-        return instance;
-    }
-
-    public PostgresProcess getProcess() {
-        return process;
-    }
-
-    public void setProcess(PostgresProcess process) {
-        this.process = process;
+    public PgInstanceProcessData() {
     }
 
     public String getPgServerVersion() {
