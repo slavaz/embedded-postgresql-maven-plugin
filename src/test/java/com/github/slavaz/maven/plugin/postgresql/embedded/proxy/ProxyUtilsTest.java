@@ -42,7 +42,7 @@ public class ProxyUtilsTest {
 
         given_aProxy();
 
-        when_handleProxyConfigurjationCalled();
+        when_handleProxyConfigurationCalled();
 
         then_systemPropertyProxyHostnameIsInstalled();
         then_systemPropertyProxyPortIsInstalled();
@@ -55,7 +55,7 @@ public class ProxyUtilsTest {
         given_aProxy();
         given_theProxyWithAuthInfo();
 
-        when_handleProxyConfigurjationCalled();
+        when_handleProxyConfigurationCalled();
 
         then_systemPropertyProxyHostnameIsInstalled();
         then_systemPropertyProxyPortIsInstalled();
@@ -69,7 +69,7 @@ public class ProxyUtilsTest {
         given_aProxy();
         given_systemPropertiesWithAuthInfo();
 
-        when_handleProxyConfigurjationCalled();
+        when_handleProxyConfigurationCalled();
 
         then_systemPropertyProxyHostnameIsInstalled();
         then_systemPropertyProxyPortIsInstalled();
@@ -82,7 +82,7 @@ public class ProxyUtilsTest {
 
         given_noSettings();
 
-        when_handleProxyConfigurjationCalled();
+        when_handleProxyConfigurationCalled();
 
         then_noSystemPropertiesTouched();
         then_authenticatorIsNotInstalled();
@@ -93,7 +93,7 @@ public class ProxyUtilsTest {
 
         given_noProxy();
 
-        when_handleProxyConfigurjationCalled();
+        when_handleProxyConfigurationCalled();
 
         then_noSystemPropertiesTouched();
         then_authenticatorIsNotInstalled();
@@ -105,7 +105,7 @@ public class ProxyUtilsTest {
         given_aProxy();
         given_theProxyIsNotActive();
 
-        when_handleProxyConfigurjationCalled();
+        when_handleProxyConfigurationCalled();
 
         then_noSystemPropertiesTouched();
         then_authenticatorIsNotInstalled();
@@ -117,7 +117,7 @@ public class ProxyUtilsTest {
         given_aProxy();
         given_theProxyIsFtp();
 
-        when_handleProxyConfigurjationCalled();
+        when_handleProxyConfigurationCalled();
 
         then_noSystemPropertiesTouched();
         then_authenticatorIsNotInstalled();
@@ -152,7 +152,7 @@ public class ProxyUtilsTest {
         assertNotNull(passwordAuthentication.getPassword());
     }
 
-    private void when_handleProxyConfigurjationCalled() {
+    private void when_handleProxyConfigurationCalled() {
         ProxyUtils.handleProxyConfigurjation(settings, logger);
     }
 

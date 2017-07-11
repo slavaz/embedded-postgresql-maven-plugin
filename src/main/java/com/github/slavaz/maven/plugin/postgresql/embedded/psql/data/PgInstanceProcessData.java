@@ -1,4 +1,6 @@
-package com.github.slavaz.maven.plugin.postgresql.embedded.psql;
+package com.github.slavaz.maven.plugin.postgresql.embedded.psql.data;
+
+import com.github.slavaz.maven.plugin.postgresql.embedded.psql.IPgInstanceProcessData;
 
 /**
  * Created by slavaz on 13/02/17.

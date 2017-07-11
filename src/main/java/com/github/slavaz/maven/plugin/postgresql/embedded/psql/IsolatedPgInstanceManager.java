@@ -1,5 +1,7 @@
 package com.github.slavaz.maven.plugin.postgresql.embedded.psql;
 
+import com.github.slavaz.maven.plugin.postgresql.embedded.psql.data.PgInstanceProcessData;
+
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;

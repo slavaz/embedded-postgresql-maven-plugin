@@ -4,7 +4,7 @@ import com.github.slavaz.maven.plugin.postgresql.embedded.classloader.ClassLoade
 import com.github.slavaz.maven.plugin.postgresql.embedded.classloader.ClassLoaderUtils;
 import com.github.slavaz.maven.plugin.postgresql.embedded.psql.IPgInstanceProcessData;
 import com.github.slavaz.maven.plugin.postgresql.embedded.psql.IsolatedPgInstanceManager;
-import com.github.slavaz.maven.plugin.postgresql.embedded.psql.PgInstanceProcessData;
+import com.github.slavaz.maven.plugin.postgresql.embedded.psql.data.PgInstanceProcessData;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.plugin.MojoExecutionException;

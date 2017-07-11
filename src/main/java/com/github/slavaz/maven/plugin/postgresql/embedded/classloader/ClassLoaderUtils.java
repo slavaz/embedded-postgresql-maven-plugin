@@ -1,5 +1,6 @@
 package com.github.slavaz.maven.plugin.postgresql.embedded.classloader;
 
+import org.apache.commons.lang3.Validate;
 import org.apache.maven.artifact.Artifact;
 
 import java.io.File;
@@ -10,7 +11,12 @@ import java.net.URLClassLoader;
 import java.util.List;
 
 public class ClassLoaderUtils {
+
+    private ClassLoaderUtils() {
+    }
+
     public static ClassLoader buildClassLoader(List<Artifact> artifacts) {
+        Validate.notEmpty(artifacts);
         return new URLClassLoader(artifacts.stream()
                 .map(Artifact::getFile)
                 .map(File::toURI)
