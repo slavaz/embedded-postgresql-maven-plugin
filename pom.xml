@@ -2,7 +2,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.github.slavaz</groupId>
     <artifactId>embedded-postgresql-maven-plugin</artifactId>
-    <version>1.0.6-SNAPSHOT</version>
+    <version>1.1.0-SNAPSHOT</version>
     <packaging>maven-plugin</packaging>
 
     <name>Embedded PostgreSQL Maven Plugin</name>
