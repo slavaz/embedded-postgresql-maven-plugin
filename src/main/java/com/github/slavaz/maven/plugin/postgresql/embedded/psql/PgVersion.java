@@ -9,10 +9,9 @@ import java.util.stream.Stream;
  * Created by slavaz on 13/02/17.
  */
 public enum PgVersion {
-    V9_3(new String[] { "9.3", "9.3.15" }, Version.V9_3_15),
     V9_4(new String[] { "9.4", "9.4.10" }, Version.V9_4_10),
     V9_5(new String[] { "9.5", "9.5.5" }, Version.V9_5_5),
-    V9_6(new String[] { "9.6", "9.6.1" }, Version.V9_6_1),
+    V9_6(new String[] { "9.6", "9.6.2" }, Version.V9_6_2),
 
     DEFAULT(V9_6),
 
