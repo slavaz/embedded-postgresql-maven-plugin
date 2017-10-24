@@ -20,6 +20,7 @@ public class PgVersionTest {
                 { null, Version.V10_0 },
                 {"latest", Version.V10_0 },
                 {"default", Version.V10_0 },
+                {"9.4", VersionEx.V9_4_14},
                 {"9.5", Version.V9_5_7},
                 {"9.5.7", Version.V9_5_7},
                 {"9.6", Version.V9_6_5},
