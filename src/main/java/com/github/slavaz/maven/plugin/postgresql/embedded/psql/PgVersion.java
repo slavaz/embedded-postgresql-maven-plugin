@@ -9,11 +9,12 @@ import java.util.stream.Stream;
  * Created by slavaz on 13/02/17.
  */
 public enum PgVersion {
-    V9_4(new String[] { "9.4", "9.4.10" }, Version.V9_4_10),
-    V9_5(new String[] { "9.5", "9.5.5" }, Version.V9_5_5),
-    V9_6(new String[] { "9.6", "9.6.2" }, Version.V9_6_2),
+    V9_4(new String[]{"9.4", "9.4.14"}, VersionEx.V9_4_14),
+    V9_5(new String[] { "9.5", "9.5.7" }, Version.V9_5_7),
+    V9_6(new String[] { "9.6", "9.6.5" }, Version.V9_6_5),
+    V10_0(new String[] { "10.0" }, Version.V10_0),
 
-    DEFAULT(V9_6),
+    DEFAULT(V10_0),
 
     LATEST(new String[] { "default", "latest" }, DEFAULT);
 
