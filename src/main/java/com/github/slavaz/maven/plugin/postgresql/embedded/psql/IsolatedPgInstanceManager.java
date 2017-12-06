@@ -23,9 +23,9 @@ public class IsolatedPgInstanceManager {
 
     public void start(IPgInstanceProcessData data) throws IOException {
         Thread postgresThread = new Thread(() -> {
-            Method startPostgres = getMethod("startPostgres", String.class, int.class, String.class, String.class, String.class, String.class, String.class, String.class);
+            Method startPostgres = getMethod("startPostgres", String.class, String.class, int.class, String.class, String.class, String.class, String.class, String.class, String.class);
 
-            invokeStaticMethod(startPostgres, data.getPgServerVersion(), data.getPgPort(), data.getDbName(), data.getUserName(),
+            invokeStaticMethod(startPostgres, data.getPgServerVersion(), data.getPgHost(), data.getPgPort(), data.getDbName(), data.getUserName(),
                     data.getPassword(), data.getPgDatabaseDir(), data.getPgLocale(), data.getPgCharset());
 
         }, "postgres-embedded");
@@ -44,9 +44,9 @@ public class IsolatedPgInstanceManager {
     }
 
     @SuppressWarnings("unused")
-    public static void startPostgres(String pgServerVersion, int pgPort, String dbName, String userName, String password,
+    public static void startPostgres(String pgServerVersion, String pgHost, int pgPort, String dbName, String userName, String password,
                                      String pgDatabaseDir, String pgLocale, String pgCharset) throws IOException {
-        PgInstanceManager.start(new PgInstanceProcessData(pgServerVersion, pgPort, dbName, userName, password, pgDatabaseDir, pgLocale, pgCharset));
+        PgInstanceManager.start(new PgInstanceProcessData(pgServerVersion, pgHost, pgPort, dbName, userName, password, pgDatabaseDir, pgLocale, pgCharset));
     }
 
     @SuppressWarnings("unused")

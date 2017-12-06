@@ -8,6 +8,8 @@ import com.github.slavaz.maven.plugin.postgresql.embedded.psql.IPgInstanceProces
 public class PgInstanceProcessData implements IPgInstanceProcessData {
     private String pgServerVersion;
 
+    private String pgHost;
+
     private int pgPort;
 
     private String dbName;
@@ -22,8 +24,9 @@ public class PgInstanceProcessData implements IPgInstanceProcessData {
 
     private String pgCharset;
 
-    public PgInstanceProcessData(String pgServerVersion, int pgPort, String dbName, String userName, String password, String pgDatabaseDir, String pgLocale, String pgCharset) {
+    public PgInstanceProcessData(String pgServerVersion, String pgHost, int pgPort, String dbName, String userName, String password, String pgDatabaseDir, String pgLocale, String pgCharset) {
         this.pgServerVersion = pgServerVersion;
+        this.pgHost = pgHost;
         this.pgPort = pgPort;
         this.dbName = dbName;
         this.userName = userName;
@@ -42,6 +45,14 @@ public class PgInstanceProcessData implements IPgInstanceProcessData {
 
     public void setPgServerVersion(String pgServerVersion) {
         this.pgServerVersion = pgServerVersion;
+    }
+
+    public String getPgHost() {
+        return pgHost;
+    }
+
+    public void setPgHost(String pgHost) {
+        this.pgHost = pgHost;
     }
 
     public String getDbName() {
