@@ -5,6 +5,10 @@ public interface IPgInstanceProcessData {
 
     void setPgServerVersion(String pgServerVersion);
 
+    String getPgHost();
+
+    void setPgHost(String pgHost);
+
     String getDbName();
 
     void setDbName(String dbName);

@@ -46,6 +46,9 @@ public class StartGoalMojo extends AbstractGoalMojo {
     @Parameter(property = "pgCharset")
     private String pgCharset;
 
+    @Parameter(property = "pgHost")
+    private String pgHost;
+
     @Parameter(defaultValue = "5432", property = "pgPort", required = true)
     private int pgServerPort;
 
@@ -75,7 +78,7 @@ public class StartGoalMojo extends AbstractGoalMojo {
     }
 
     private IPgInstanceProcessData buildInstanceProcessData() {
-        return new PgInstanceProcessData(pgServerVersion, pgServerPort,
+        return new PgInstanceProcessData(pgServerVersion, pgHost, pgServerPort,
                 dbName, userName, password, pgDatabaseDir, pgLocale, pgCharset);
     }
 }
