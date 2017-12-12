@@ -1,5 +1,6 @@
-package com.github.slavaz.maven.plugin.postgresql.embedded.psql;
+package com.github.slavaz.maven.plugin.postgresql.embedded.psql.util;
 
+import com.github.slavaz.maven.plugin.postgresql.embedded.psql.IPgInstanceProcessData;
 import com.github.slavaz.utils.ChangeCharset;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -20,14 +21,14 @@ import static org.testng.Assert.assertEquals;
 /**
  * Created by slavaz on 28/02/17.
  */
-public class PgInstanceManager_CharsetParametersListTest {
+public class CharsetParameterListTest {
 
     private static final List<String> SYSTEM_DEFAULT_LIST =
             asList("-E", "UTF-32", "--locale=ja_JP.UTF-32", "--lc-collate=ja_JP.UTF-32", "--lc-ctype=ja_JP.UTF-32");
     @Mock
     private IPgInstanceProcessData pgInstanceProcessData;
 
-    private PgInstanceManager.CharsetParametersList charsetParametersList;
+    private CharsetParameterList charsetParameterList;
 
     @BeforeClass
     public static void setUpSystemEnvironment() throws NoSuchFieldException, IllegalAccessException {
@@ -43,13 +44,13 @@ public class PgInstanceManager_CharsetParametersListTest {
     @Test
     public void SystemLocaleCharsetTest() throws NoSuchFieldException, IllegalAccessException {
         // given
-        charsetParametersList = new PgInstanceManager.CharsetParametersList(pgInstanceProcessData);
+        charsetParameterList = new CharsetParameterList(pgInstanceProcessData);
 
         Locale.setDefault(Locale.US);
         ChangeCharset.to("windows-1252");
 
         // when
-        final Collection actualResult = charsetParametersList.get();
+        final Collection actualResult = charsetParameterList.get();
 
         // then
         assertEquals(SYSTEM_DEFAULT_LIST, actualResult);
@@ -80,10 +81,10 @@ public class PgInstanceManager_CharsetParametersListTest {
         doReturn(charset).when(pgInstanceProcessData)
                 .getPgCharset();
 
-        charsetParametersList = new PgInstanceManager.CharsetParametersList(pgInstanceProcessData);
+        charsetParameterList = new CharsetParameterList(pgInstanceProcessData);
 
         // when
-        final Collection actualResult = charsetParametersList.get();
+        final Collection actualResult = charsetParameterList.get();
 
         // then
         assertEquals(expectedResult, actualResult);
