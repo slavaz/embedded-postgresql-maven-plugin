@@ -1,13 +1,12 @@
 package com.github.slavaz.maven.plugin.postgresql.embedded.psql;
 
+import com.github.slavaz.maven.plugin.postgresql.embedded.psql.util.PostgresConfigUtil;
 import ru.yandex.qatools.embed.postgresql.PostgresExecutable;
 import ru.yandex.qatools.embed.postgresql.PostgresProcess;
 import ru.yandex.qatools.embed.postgresql.PostgresStarter;
 import ru.yandex.qatools.embed.postgresql.config.PostgresConfig;
 
 import java.io.IOException;
-
-import static com.github.slavaz.maven.plugin.postgresql.embedded.psql.util.PostgresConfigUtil.getPostgresConfig;
 
 /**
  * Created by slavaz on 13/02/17.
@@ -16,7 +15,7 @@ public class PgInstanceManager {
 
     private static PostgresProcess process = null;
 
-    public static void start(IPgInstanceProcessData pgInstanceProcessData) throws IOException {
+    public static void start(final IPgInstanceProcessData pgInstanceProcessData) throws IOException {
         if (process != null) {
             throw new IllegalStateException("Postgres already started");
         }
@@ -24,7 +23,7 @@ public class PgInstanceManager {
         final PostgresStarter<PostgresExecutable, PostgresProcess> postgresStarter =
                 PostgresStarter.getDefaultInstance();
 
-        final PostgresConfig postgresConfig = getPostgresConfig(pgInstanceProcessData);
+        final PostgresConfig postgresConfig = PostgresConfigUtil.get(pgInstanceProcessData);
 
         PostgresExecutable postgresExecutable = postgresStarter.prepare(postgresConfig);
 

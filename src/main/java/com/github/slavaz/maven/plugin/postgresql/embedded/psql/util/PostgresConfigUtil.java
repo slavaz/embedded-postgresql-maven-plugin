@@ -13,7 +13,7 @@ import static de.flapdoodle.embed.process.runtime.Network.getLocalHost;
 
 public class PostgresConfigUtil {
 
-    public static PostgresConfig getPostgresConfig(final IPgInstanceProcessData pgInstanceProcessData) throws
+    public static PostgresConfig get(final IPgInstanceProcessData pgInstanceProcessData) throws
             IOException {
 
         final AbstractPostgresConfig.Storage storage = getStorage(pgInstanceProcessData);
@@ -26,39 +26,43 @@ public class PostgresConfigUtil {
         return config;
     }
 
-    private static Collection<String> getCharsetParameters(IPgInstanceProcessData pgInstanceProcessData) {
+    private static Collection<String> getCharsetParameters(final IPgInstanceProcessData pgInstanceProcessData) {
         return new CharsetParameterList(pgInstanceProcessData).get();
     }
 
-    private static PostgresConfig getConfig(IPgInstanceProcessData pgInstanceProcessData, AbstractPostgresConfig
-            .Storage storage, AbstractPostgresConfig.Credentials creds, IVersion version) throws IOException {
+    private static PostgresConfig getConfig(final IPgInstanceProcessData pgInstanceProcessData, final
+    AbstractPostgresConfig.Storage storage, final AbstractPostgresConfig.Credentials creds, final IVersion version)
+            throws IOException {
 
         return new PostgresConfig(version, getNet(pgInstanceProcessData), storage, new AbstractPostgresConfig
                 .Timeout(), creds);
     }
 
-    private static AbstractPostgresConfig.Credentials getCredentials(IPgInstanceProcessData pgInstanceProcessData) {
+    private static AbstractPostgresConfig.Credentials getCredentials(final IPgInstanceProcessData
+                                                                             pgInstanceProcessData) {
 
         return new AbstractPostgresConfig.Credentials(
                 pgInstanceProcessData.getUserName(), pgInstanceProcessData.getPassword());
     }
 
-    private static AbstractPostgresConfig.Storage getStorage(IPgInstanceProcessData pgInstanceProcessData) throws
+    private static AbstractPostgresConfig.Storage getStorage(final IPgInstanceProcessData pgInstanceProcessData) throws
             IOException {
 
         return new AbstractPostgresConfig.Storage(
                 pgInstanceProcessData.getDbName(), pgInstanceProcessData.getPgDatabaseDir());
     }
 
-    private static IVersion getVersion(IPgInstanceProcessData pgInstanceProcessData) {
+    private static IVersion getVersion(final IPgInstanceProcessData pgInstanceProcessData) {
 
         return PgVersion.get(pgInstanceProcessData.getPgServerVersion());
     }
 
-    private static AbstractPostgresConfig.Net getNet(IPgInstanceProcessData pgInstanceProcessData) throws IOException {
+    private static AbstractPostgresConfig.Net getNet(final IPgInstanceProcessData pgInstanceProcessData) throws
+            IOException {
 
-        String host = "".equals(pgInstanceProcessData.getPgHost()) ? getLocalHost().getHostAddress() :
+        final String host = "".equals(pgInstanceProcessData.getPgHost()) ? getLocalHost().getHostAddress() :
                 pgInstanceProcessData.getPgHost();
+
         return new AbstractPostgresConfig.Net(host, pgInstanceProcessData.getPgPort());
     }
 }

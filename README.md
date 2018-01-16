@@ -21,6 +21,10 @@ You also may use aliases:
 
 Where server files will be plased. Default {project.build.directory}/pgdata
 
+### pgHost
+
+Host(IP address) for listening incoming connections.
+
 ### pgPort
 
 Port for listening incoming connections.
