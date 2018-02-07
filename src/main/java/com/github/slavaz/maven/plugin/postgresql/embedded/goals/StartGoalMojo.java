@@ -28,7 +28,7 @@ public class StartGoalMojo extends AbstractGoalMojo {
     @Parameter(defaultValue = "latest", property = "pgVersion", required = true)
     private String pgServerVersion;
 
-    @Parameter(property = "pgDatabasedir", required = false)
+    @Parameter(property = "pgDatabasedir")
     private String pgDatabaseDir;
 
     @Parameter(property = "dbname", required = true)
@@ -46,7 +46,7 @@ public class StartGoalMojo extends AbstractGoalMojo {
     @Parameter(property = "pgCharset")
     private String pgCharset;
 
-    @Parameter(property = "pgHost")
+    @Parameter(property = "pgHost", defaultValue = "localhost")
     private String pgHost;
 
     @Parameter(defaultValue = "5432", property = "pgPort", required = true)
