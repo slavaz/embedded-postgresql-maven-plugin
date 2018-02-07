@@ -23,9 +23,11 @@ public class IsolatedPgInstanceManager {
 
     public void start(IPgInstanceProcessData data) throws IOException {
         Thread postgresThread = new Thread(() -> {
-            Method startPostgres = getMethod("startPostgres", String.class, String.class, int.class, String.class, String.class, String.class, String.class, String.class, String.class);
+            Method startPostgres = getMethod("startPostgres", String.class, String.class, int.class, String.class,
+                    String.class, String.class, String.class, String.class, String.class);
 
-            invokeStaticMethod(startPostgres, data.getPgServerVersion(), data.getPgHost(), data.getPgPort(), data.getDbName(), data.getUserName(),
+            invokeStaticMethod(startPostgres, data.getPgServerVersion(), data.getPgHost(), data.getPgPort(), data
+                            .getDbName(), data.getUserName(),
                     data.getPassword(), data.getPgDatabaseDir(), data.getPgLocale(), data.getPgCharset());
 
         }, "postgres-embedded");
