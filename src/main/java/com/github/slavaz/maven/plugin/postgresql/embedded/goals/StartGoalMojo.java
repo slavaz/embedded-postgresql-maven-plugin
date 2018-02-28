@@ -52,6 +52,9 @@ public class StartGoalMojo extends AbstractGoalMojo {
     @Parameter(defaultValue = "5432", property = "pgPort", required = true)
     private int pgServerPort;
 
+    @Parameter(property = "pgDumpFile")
+    private String pgDumpFile;
+
     @Parameter(readonly = true, defaultValue = "${plugin.artifacts}")
     private List<Artifact> pluginDependencies;
 
@@ -79,6 +82,6 @@ public class StartGoalMojo extends AbstractGoalMojo {
 
     private IPgInstanceProcessData buildInstanceProcessData() {
         return new PgInstanceProcessData(pgServerVersion, pgHost, pgServerPort,
-                dbName, userName, password, pgDatabaseDir, pgLocale, pgCharset);
+                dbName, userName, password, pgDatabaseDir, pgLocale, pgCharset, pgDumpFile);
     }
 }

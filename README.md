@@ -51,6 +51,10 @@ User name. Will be created
 
 User password for newly created user
 
+### pgDumpFile
+
+A SQL dump for apply to the DB.
+
 ## Usage example
 
 Starts PostgreSQL server, creates a database and a user with specified password
