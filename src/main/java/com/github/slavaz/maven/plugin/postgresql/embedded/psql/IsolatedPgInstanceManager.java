@@ -24,11 +24,11 @@ public class IsolatedPgInstanceManager {
     public void start(IPgInstanceProcessData data) throws IOException {
         Thread postgresThread = new Thread(() -> {
             Method startPostgres = getMethod("startPostgres", String.class, String.class, int.class, String.class,
-                    String.class, String.class, String.class, String.class, String.class);
+                    String.class, String.class, String.class, String.class, String.class, String.class);
 
             invokeStaticMethod(startPostgres, data.getPgServerVersion(), data.getPgHost(), data.getPgPort(), data
-                            .getDbName(), data.getUserName(),
-                    data.getPassword(), data.getPgDatabaseDir(), data.getPgLocale(), data.getPgCharset());
+                    .getDbName(), data.getUserName(), data.getPassword(), data.getPgDatabaseDir(), data
+                    .getPgLocale(), data.getPgCharset(), data.getPgDumpFile());
 
         }, "postgres-embedded");
         postgresThread.setContextClassLoader(classLoader);
@@ -46,9 +46,11 @@ public class IsolatedPgInstanceManager {
     }
 
     @SuppressWarnings("unused")
-    public static void startPostgres(String pgServerVersion, String pgHost, int pgPort, String dbName, String userName, String password,
-                                     String pgDatabaseDir, String pgLocale, String pgCharset) throws IOException {
-        PgInstanceManager.start(new PgInstanceProcessData(pgServerVersion, pgHost, pgPort, dbName, userName, password, pgDatabaseDir, pgLocale, pgCharset));
+    public static void startPostgres(final String pgServerVersion, final String pgHost, final int pgPort, final
+    String dbName, final String userName, final String password, final String pgDatabaseDir, final String pgLocale,
+                                     final String pgCharset, final String pgDumpFile) throws IOException {
+        PgInstanceManager.start(new PgInstanceProcessData(pgServerVersion, pgHost, pgPort, dbName, userName,
+                password, pgDatabaseDir, pgLocale, pgCharset, pgDumpFile));
     }
 
     @SuppressWarnings("unused")
