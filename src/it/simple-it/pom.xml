@@ -21,6 +21,7 @@
         <version>@project.version@</version>
         <configuration>
           <dbName>testdb</dbName>
+          <pgDatabasedir>${project.build.directory}/pgdata</pgDatabasedir>
         </configuration>
         <executions>
           <execution>

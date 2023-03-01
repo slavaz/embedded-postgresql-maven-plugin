@@ -36,4 +36,9 @@ public interface IPgInstanceProcessData {
     String getPgCharset();
 
     void setPgCharset(String pgCharset);
+
+    public String getPgDumpFile();
+
+    public void setPgDumpFile(String pgDumpFile);
+
 }
